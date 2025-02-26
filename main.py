@@ -14,7 +14,7 @@ import numpy as np
 
 #Tensorflow Model Prediction
 def model_prediction(test_image):
-    model = tf.keras.models.load_model("traine_model(1).keras")
+    model = tf.keras.models.load_model("C:\\Users\\HEATHER M\\Downloads\\Colab Notebooks-20250225T101014Z-001\\Colab Notebooks\\traine_model(1).keras")
     image = tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr]) #convert single image to batch
