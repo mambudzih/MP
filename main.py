@@ -4,19 +4,16 @@ import numpy as np
 
 
 #Tensorflow Model Prediction
-#def model_prediction(test_image):
-    #model = tf.keras.models.load_model("C:\\Users\\HEATHER M\\Downloads\\Colab Notebooks-20250225T101014Z-001\\Colab Notebooks\\traine_model(1).keras")
-    
-    
-   # image = tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
-    #input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    #input_arr = np.array([input_arr]) #convert single image to batch
-    #predictions = model.predict(input_arr)
-    #return np.argmax(predictions) #return index of max element
 def model_prediction(test_image):
     model = tf.keras.models.load_model("C:\\Users\\HEATHER M\\Downloads\\Colab Notebooks-20250225T101014Z-001\\Colab Notebooks\\traine_model(1).keras")
-    predictions = model.predict(test_image)  # Replace with your model's prediction logic
-    return np.argmax(predictions)  # Return index of max element
+    
+    
+   image = tf.keras.preprocessing.image.load_img(test_image,target_size=(128,128))
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr]) #convert single image to batch
+    predictions = model.predict(input_arr)
+    return np.argmax(predictions) #return index of max element
+
 #Sidebar
 st.sidebar.title("Dashboard")
 app_mode = st.sidebar.selectbox("Select Page",["Home","About","Disease Recognition"])
