@@ -8,7 +8,7 @@ import io
 def model_prediction(test_image):
     try:
         # Load the TensorFlow Lite model
-        interpreter = tf.lite.Interpreter(model_path="model(1).tflite")
+        interpreter = tf.lite.Interpreter("traine_model (1).keras")
         interpreter.allocate_tensors()
 
         # Get input and output details
