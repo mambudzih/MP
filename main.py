@@ -75,6 +75,6 @@ elif(app_mode=="Disease Recognition"):
         st.write("Our Prediction")
         result_index = model_prediction(test_image)
         #Reading Labels
-        class_name = ['Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 
-                    'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy']
-        st.success("Model is Predicting it's a {}".format(class_name[result_index]))
+       # class_name = ['Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot', 
+            #        'Corn_(maize)___Common_rust_', 'Corn_(maize)___Northern_Leaf_Blight', 'Corn_(maize)___healthy']
+        #st.success("Model is Predicting it's a {}".format(class_name[result_index]))
