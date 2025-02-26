@@ -2,19 +2,36 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 
-# Tensorflow Model Prediction
+# Tensorflow Lite Model Prediction
 def model_prediction(test_image):
     try:
-        model = tf.keras.models.load_model("model(1).tflite")
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
-        return None
+        # Load the TensorFlow Lite model
+        interpreter = tf.lite.Interpreter(model_path="model(1).tflite")
+        interpreter.allocate_tensors()
 
-    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
-    input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])  # Convert single image to batch
-    predictions = model.predict(input_arr)
-    return np.argmax(predictions)  # Return index of max element
+        # Get input and output details
+        input_details = interpreter.get_input_details()
+        output_details = interpreter.get_output_details()
+
+        # Load and preprocess the image
+        image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
+        input_arr = tf.keras.preprocessing.image.img_to_array(image)
+        input_arr = input_arr / 255.0  # Normalize the image
+        input_arr = np.expand_dims(input_arr, axis=0).astype(np.float32)  # Add batch dimension
+
+        # Set the input tensor
+        interpreter.set_tensor(input_details[0]['index'], input_arr)
+
+        # Run inference
+        interpreter.invoke()
+
+        # Get the output tensor
+        predictions = interpreter.get_tensor(output_details[0]['index'])
+        return np.argmax(predictions)  # Return index of max element
+
+    except Exception as e:
+        st.error(f"Error during prediction: {e}")
+        return None
 
 # Sidebar
 st.sidebar.title("Dashboard")
