@@ -5,7 +5,7 @@ import numpy as np
 # Tensorflow Model Prediction
 def model_prediction(test_image):
     try:
-        model = tf.keras.models.load_model("traine_model.keras")
+        model = tf.keras.models.load_model("model(1).tflite")
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
