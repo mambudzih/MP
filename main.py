@@ -2,33 +2,21 @@ import streamlit as st
 import tensorflow as tf
 import numpy as np
 from PIL import Image
-import io
 
-# Tensorflow Lite Model Prediction
+# TensorFlow Keras Model Prediction
 def model_prediction(test_image):
     try:
-        # Load the TensorFlow Lite model
-        interpreter = tf.lite.Interpreter("traine_model (1).keras")
-        interpreter.allocate_tensors()
-
-        # Get input and output details
-        input_details = interpreter.get_input_details()
-        output_details = interpreter.get_output_details()
+        # Load the Keras model
+        model = tf.keras.models.load_model("traine_model(1).keras")  # Update with your model path
 
         # Load and preprocess the image
         image = Image.open(test_image)  # Open the uploaded image
-        image = image.resize((128, 128))  # Resize the image
+        image = image.resize((128, 128))  # Resize the image to the model's expected input size
         input_arr = np.array(image) / 255.0  # Normalize the image
         input_arr = np.expand_dims(input_arr, axis=0).astype(np.float32)  # Add batch dimension
 
-        # Set the input tensor
-        interpreter.set_tensor(input_details[0]['index'], input_arr)
-
-        # Run inference
-        interpreter.invoke()
-
-        # Get the output tensor
-        predictions = interpreter.get_tensor(output_details[0]['index'])
+        # Make predictions
+        predictions = model.predict(input_arr)
         return np.argmax(predictions)  # Return index of max element
 
     except Exception as e:
@@ -42,11 +30,20 @@ app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recogn
 
 # Main Page
 if app_mode == "Home":
-    # (Your existing Home page code)
+    st.header("PLANT DISEASE RECOGNITION SYSTEM")
+    image_path = "home_page.jpeg"
+    st.image(image_path, use_column_width=True)
+    st.markdown("""
+    Welcome to the Plant Disease Recognition System! 🌿🔍
+    ... (Your existing Home page text)
+    """)
 
 # About Project
 elif app_mode == "About":
-    # (Your existing About page code)
+    st.header("About")
+    st.markdown("""
+    ... (Your existing About page text)
+    """)
 
 # Prediction Page
 elif app_mode == "Disease Recognition":
@@ -54,7 +51,6 @@ elif app_mode == "Disease Recognition":
     test_image = st.file_uploader("Choose an Image:", type=["jpg", "jpeg", "png"])
     if test_image is not None:
         if st.button("Show Image"):
-            # Display the uploaded image
             st.image(test_image, use_column_width=True)
 
         # Predict button
